@@ -6,9 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import watersplash.ConfigurationMoD;
 
@@ -17,7 +15,7 @@ public class ParticleWaterTailMain extends EntityFX
 	private double random = Math.random();
 	private int timer = 0;
 	private Entity entityL;
-	
+
 public ParticleWaterTailMain(World theWorld, Entity e){
 	this(theWorld, e.posX, e.posY, e.posZ, 1.0F, e.motionX, e.motionY, e.motionZ, e);
 }
@@ -49,25 +47,90 @@ public void onUpdate()
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
-    	
-    	int y = (int) entityL.posY;
-		if(entityL instanceof EntityPlayer) {
-			y -= 1;
-		}
+
 		
 		Material m = entityL.worldObj.getBlock((int)entityL.posX, (int)entityL.posY-1, (int)entityL.posZ).getMaterial();
 		Material m2 = entityL.worldObj.getBlock((int)entityL.posX, (int)entityL.posY, (int)entityL.posZ).getMaterial();
 
 		if((m2 == Material.water)||(m == Material.water)&& (entityL.motionX != 0 || entityL.motionZ != 0) && ++timer > ConfigurationMoD.TRAIL_RARITY_MODIFIER){
-			int poY = 0;
+			double poY = 0;
 			int o = 0 ;
 			 while((o<5)) {
 				 ++o;
 				 if(entityL.worldObj.getBlock((int)entityL.posX, (int)entityL.posY-2+o, (int)entityL.posZ).getMaterial() == Material.air) {
-					poY = (int)entityL.posY-2+o;
-				 	o = 10;
+					 poY = (int)entityL.posY-2+o;
+					//TODO: Rotation, it's not necessary but it would look nicer, especially in case 1 where the block below has meta data 9
+					/** float degrees = (float) Math.toDegrees((float) BlockLiquid.getFlowDirection(entityL.worldObj, (int) entityL.posX, (int) entityL.posY - 3 + o, (int) entityL.posZ, Material.water)) % 360;
+					 if (!Float.isNaN(degrees)) {
+						 System.out.println(this.posY + " " + (int) ((degrees + 22.5F) / 45F) % 8);
+						 switch ((int) ((degrees + 22.5F) / 45F) % 8) {
+							 case 2: // West (0°)
+								 this.rotationPitch = 24;
+								 this.rotationYaw = -40; // Roll left
+								 break;
+							 case -4: // Northwest (45°)
+								 this.rotationPitch = 5;
+								 this.rotationYaw = -5;
+								 break;
+							 case -3: // North (90°)
+								 this.rotationPitch = 10; // Tilt forward
+								 this.rotationYaw = 0;
+								 break;
+							 case -2: // Northeast (135°)
+								 this.rotationPitch = 5;
+								 this.rotationYaw = 5;
+								 break;
+							 case -1: // East (180°)
+								 this.rotationPitch = 0;
+								 this.rotationYaw = 10; // Roll right
+								 break;
+							 case 0: // Southeast (225°)
+								 this.rotationPitch = -5;
+								 this.rotationYaw = 5;
+								 break;
+							 case 1: // South (270°)
+								 this.rotationPitch = -10; // Tilt backward
+								 this.rotationYaw = 0;
+								 break;
+							 case 7: // Southwest (315°)
+								 this.rotationPitch = -5;
+								 this.rotationYaw = -5;
+								 break;
+						 }
+					 }*/
+
+					 switch (entityL.worldObj.getBlockMetadata((int)entityL.posX, (int)entityL.posY-3+o, (int)entityL.posZ)) {
+						 case 1:
+							 poY -= 0.1;
+							 //Checks block below if it's flowing down.
+							 if(entityL.worldObj.getBlockMetadata((int)entityL.posX, (int)entityL.posY-4+o, (int)entityL.posZ) == 9) {
+								 poY -= 0.2;
+							 }
+							 break;
+						 case 2:
+							 poY -= 0.2;
+							 break;
+						 case 3:
+							 poY -= 0.3;
+							 break;
+						 case 4:
+							 poY -= 0.4;
+							 break;
+						 case 5:
+							 poY -= 0.5;
+							 break;
+						 case 6:
+							 poY -= 0.6;
+							 break;
+						 case 7:
+							 poY -= 0.7;
+							 break;
+						 default:
+							 break;
+					 }
 				 	if(entityL instanceof EntityItem)
 				 		this.setDead();
+					o = 10;
 				 } 
 			 }
 			ParticleEffects.spawnTail(entityL,poY,false);

@@ -1,6 +1,5 @@
 package watersplash.particles;
 
-import java.awt.geom.Point2D;
 
 import org.lwjgl.opengl.GL11;
 
@@ -8,12 +7,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import watersplash.ConfigurationMoD;
 import watersplash.WATERMAIN;

@@ -12,10 +12,9 @@ public class ParticleEffects
 {
 	 private static Minecraft mc = Minecraft.getMinecraft();
 	 private static World theWorld = mc.theWorld;
-	
 
-	 public static void spawnEntityParticle(String particleName, Entity entity, BiomeGenBase biomeGenBase,String Type) {
 
+	 public static void spawnEntityParticle(String particleName, Entity entity, BiomeGenBase biomeGenBase,String Type, byte meta) {
 		 if (mc != null)
 		 {
 		 EntityFX var21 = null;
@@ -31,12 +30,14 @@ public class ParticleEffects
 				 ++o;
 				 if(entity.worldObj.isAirBlock((int)x,y+o,(int)z) || o > 5) {
 
-		    			
+					 if (Type.equals("Waste")) {
+						 var21 = new ParticleWaterSplash(theWorld,entity,biomeGenBase, meta, true);
+						 mc.effectRenderer.addEffect(var21);
+					 }
 			   		 if (Type.equals("Water")) {
-						var21 = new ParticleWaterSplash(theWorld,entity,biomeGenBase);
+						var21 = new ParticleWaterSplash(theWorld,entity,biomeGenBase, meta, false);
 					 	mc.effectRenderer.addEffect(var21);
 					 	 }
-
 			   		 if (Type.equals("Lava")){
 						var21 = new ParticleLavaSplash(theWorld, x, y+o,z,entity,biomeGenBase); 
 			   			mc.effectRenderer.addEffect(var21);
@@ -68,11 +69,10 @@ public class ParticleEffects
 	 }
 
 
-	public static void spawnTail(Entity entityL, int poY, boolean b) {
+	public static void spawnTail(Entity entityL, double poY, boolean b) {
 		 if (mc != null)
 		 {
 		 EntityFX var21 = null;
-		 
 		 if(b) {
 			 var21 = new ParticleWaterTailMain(theWorld, entityL);
 		 }else {
@@ -81,7 +81,7 @@ public class ParticleEffects
 		 }
 		 
 		 if (var21 != null)
-		 mc.effectRenderer.addEffect(var21);
+		 	mc.effectRenderer.addEffect(var21);
 		 }
 	}
 }

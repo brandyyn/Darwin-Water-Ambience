@@ -7,6 +7,7 @@ public class ConfigurationMoD {
 public static boolean Enable_Splash;
 public static boolean Enable_Splash_for_ITEMS;
 public static boolean Enable_Splash_for_ENTITYS;
+public static boolean Enable_Splash_for_ENTITYS_MP;
 public static boolean Enable_SPLASH_LAVA;
 public static boolean Enable_Ripple;
 public static boolean SPLASH_LOWPERFORMANCEMOD;
@@ -20,10 +21,11 @@ public static double RIPPLE_SCALE_MODIFIER_SIZE,RIPPLE_RARITY_MODIFIER,RIPPLE_AR
 public static double TRAIL_SCALE_MODIFIER_SIZE;
 
 
-public static final String 	Enable_Splash_DES = "This Option enable the rendering of the Water Splashes.(enable the whole Slpashsystem) true/false";
+public static final String 	Enable_Splash_DES = "This Option enable the rendering of the Water Splashes.(enable the whole Splash System) true/false";
 public static final String 	Enable_Ripple_DES = "This Option enable the rendering of the Water Ripples. true/false";
 public static final String 	Enable_Trail_DES = "This Option enable the rendering of the Water Trails. true/false";
 public static final String 	Enable_Splash_for_ITEMS_DES = "This Option enable the rendering of the Water Splashes for ITEMS. true/false";
+public static final String 	Enable_Splash_for_ENTITYS_MP_DES = "This Option enable the rendering of the Water Splashes for other players. true/false";
 public static final String 	Enable_Splash_for_ENTITYS_DES = "This Option enable the rendering of the Water Splashes for Entitys. true/false";
 
 
@@ -37,7 +39,8 @@ public static void loadConfig(){
 	Enable_Splash = WATERMAIN.config.get(CATEGORY_WATERMOD,Enable_Splash_DES, true).getBoolean();  
 	Enable_Ripple = WATERMAIN.config.get(CATEGORY_WATERMOD,Enable_Ripple_DES,true).getBoolean();  
 	Enable_Trail = WATERMAIN.config.get(CATEGORY_WATERMOD,Enable_Trail_DES,true).getBoolean();  
-	Enable_Splash_for_ITEMS = WATERMAIN.config.get(CATEGORY_WATERMOD,Enable_Splash_for_ITEMS_DES, true).getBoolean();  
+	Enable_Splash_for_ITEMS = WATERMAIN.config.get(CATEGORY_WATERMOD,Enable_Splash_for_ITEMS_DES, true).getBoolean();
+	Enable_Splash_for_ENTITYS_MP = WATERMAIN.config.get(CATEGORY_WATERMOD, Enable_Splash_for_ENTITYS_MP_DES, true).getBoolean(); //DEFAULT VALUE CAN BE CHANGED
 	Enable_Splash_for_ENTITYS = WATERMAIN.config.get(CATEGORY_WATERMOD,Enable_Splash_for_ENTITYS_DES,true).getBoolean();  
 	Enable_SPLASH_LAVA = WATERMAIN.config.get(CATEGORY_WATERMOD,"---->Experimental<---- enable Splash for lava, it will try to load the Texture of Lava and create a new color for the SPLASH",false).getBoolean();  
 	
