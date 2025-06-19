@@ -59,7 +59,7 @@ public void onUpdate()
 				 ++o;
 				 if(entityL.worldObj.getBlock((int)entityL.posX, (int)entityL.posY-2+o, (int)entityL.posZ).getMaterial() == Material.air) {
 					 poY = (int)entityL.posY-2+o;
-					//TODO: Rotation, it's not necessary but it would look nicer, especially in case 1 where the block below has meta data 9
+					//TODO  Rotation, it's not necessary but it would look nicer, especially in case 1 where the block below has meta data 9
 					/** float degrees = (float) Math.toDegrees((float) BlockLiquid.getFlowDirection(entityL.worldObj, (int) entityL.posX, (int) entityL.posY - 3 + o, (int) entityL.posZ, Material.water)) % 360;
 					 if (!Float.isNaN(degrees)) {
 						 System.out.println(this.posY + " " + (int) ((degrees + 22.5F) / 45F) % 8);
