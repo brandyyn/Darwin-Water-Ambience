@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -115,7 +114,7 @@ public void render(Tessellator p_70539_1_, float p_70539_2_, float par3, float p
     
     	f6 = ((float)particleTextureIndexX)/ 16.0F;
     	u = 0.9F;
-    	i = (float) (1.1F*ConfigurationMoD.SPLASH_SCALE_MODIFIER_HIGHT);
+    	i = (float) (1.1F*ConfigurationMoD.SPLASH_SCALE_MODIFIER_HEIGHT);
     
     
     float f7 = f6 + 0.0624375F;

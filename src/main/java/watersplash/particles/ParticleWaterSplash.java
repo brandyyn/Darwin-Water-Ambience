@@ -50,7 +50,7 @@ this.particleGreen = gPart;
 this.particleBlue = bPart;
 if(entity instanceof EntityOtherPlayerMP && ConfigurationMoD.Enable_Splash_for_ENTITYS_MP)
     this.particleScale *= 8.4F*0.9F*ConfigurationMoD.SPLASH_SCALE_MODIFIER_SIZE;
-else if(entity instanceof EntityItem)
+else if(entity instanceof EntityItem && ConfigurationMoD.SPLASH_SCALE_DOUBLE_ITEM)
     this.particleScale *=16.8F*entity.getShadowSize()*ConfigurationMoD.SPLASH_SCALE_MODIFIER_SIZE;
 else
     this.particleScale *= 8.4F*entity.getShadowSize()*ConfigurationMoD.SPLASH_SCALE_MODIFIER_SIZE;
@@ -168,7 +168,7 @@ public void render(Tessellator p_70539_1_, float p_70539_2_, boolean type)
     if(type) {
     	f6 = ((float)particleTextureIndexX+inTime)/ 16.0F;
     	u = 0.9F;
-    	i = (float) (2.1F*ConfigurationMoD.SPLASH_SCALE_MODIFIER_HIGHT);
+    	i = (float) (2.1F*ConfigurationMoD.SPLASH_SCALE_MODIFIER_HEIGHT);
     }else {
     	f6 = ((float)particleTextureIndexX+outTime)/ 16.0F;
     }

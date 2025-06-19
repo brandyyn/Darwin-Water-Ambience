@@ -15,7 +15,8 @@ public static boolean SPLASH_LOWPERFORMANCEMOD;
 public static boolean Enable_Trail;
 public static boolean Enable_Trail_Transparancy;
 
-public static double SPLASH_SCALE_MODIFIER_SIZE,SPLASH_SCALE_MODIFIER_HIGHT;
+public static double SPLASH_SCALE_MODIFIER_SIZE, SPLASH_SCALE_MODIFIER_HEIGHT;
+public static boolean SPLASH_SCALE_DOUBLE_ITEM;
 public static int SPLASH_SCALE_MAXTRACKEDITEMS,TRAIL_RARITY_MODIFIER;
 public static double RIPPLE_SCALE_MODIFIER_SIZE,RIPPLE_RARITY_MODIFIER,RIPPLE_AREA_MODIFIER;
 public static double TRAIL_SCALE_MODIFIER_SIZE;
@@ -47,7 +48,8 @@ public static void loadConfig(){
 	final String CATEGORY_WATERMOD2 = WATERMAIN.config.CATEGORY_GENERAL + WATERMAIN.config.CATEGORY_SPLITTER + "WATERSPLASH";
 	WATERMAIN.config.addCustomCategoryComment(CATEGORY_WATERMOD2, "GENERAL");
 	SPLASH_SCALE_MODIFIER_SIZE = WATERMAIN.config.get(CATEGORY_WATERMOD2, "Scales the Size of the Splash (1.0 = 100%)", 1.00).getDouble();  
-	SPLASH_SCALE_MODIFIER_HIGHT = WATERMAIN.config.get(CATEGORY_WATERMOD2, "Scales the Hight of the Splash (1.0 = 100%)", 1.00).getDouble();  
+	SPLASH_SCALE_MODIFIER_HEIGHT = WATERMAIN.config.get(CATEGORY_WATERMOD2, "Scales the Height of the Splash (1.0 = 100%)", 1.00).getDouble();
+	SPLASH_SCALE_DOUBLE_ITEM = WATERMAIN.config.get(CATEGORY_WATERMOD2, "Doubles the size of the splash for items", false).getBoolean();
 	SPLASH_SCALE_MAXTRACKEDITEMS = WATERMAIN.config.get(CATEGORY_WATERMOD2, "Sets the Max Amount of Tracked Items around the Player)", 20).getInt();  
 	SPLASH_LOWPERFORMANCEMOD = WATERMAIN.config.get(CATEGORY_WATERMOD2,"Enable this to get a bit more performance, but it will spawn a Splash on EVERY contact with water",false).getBoolean(); 
 	
