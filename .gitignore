@@ -31,10 +31,5 @@ replay_pid*
 /bin/
 /libs/
 
-.gradle/
-.idea/
-.settings/
-/build/
-/eclipse/
-/bin/
-/libs/
+
+/.gradle/
