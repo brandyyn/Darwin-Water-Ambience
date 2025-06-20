@@ -41,9 +41,11 @@ public class WeatherHelper {
 			World world = mc.thePlayer.worldObj;
 			int r = 20;
 			List items = world.getEntitiesWithinAABB(EntityItem.class,AxisAlignedBB.getBoundingBox(e.posX-r, e.posY-r, e.posZ-r, e.posX+r, e.posY+r, e.posZ+r));
+			items.removeIf(i -> items.indexOf(i) >= ConfigurationMoD.SPLASH_MAXTRACKEDITEMS);
 			if(items != null && !items.isEmpty() && items.size()>0) {
+				System.out.println(items.size());
 				for(int i = 0; i<items.size(); ++i) {
-					if(EntityRainProperties.get((Entity) items.get(i)) != null) {
+					if(EntityRainProperties.get((Entity) items.get(i)) != null  && ((Entity)items.get(i)).getDistanceToEntity(Minecraft.getMinecraft().thePlayer) < ConfigurationMoD.SPLASH_RENDER_DISTANCE) {
 						EntityRainProperties.get((Entity) items.get(i)).updateWaterLogic();
 
 					}
@@ -56,7 +58,7 @@ public class WeatherHelper {
    @SideOnly(Side.CLIENT)
 	public void updateSplashParticlesForLiving(LivingUpdateEvent event) {
 		if( event.entity.worldObj.isRemote || event.entity instanceof EntityPlayer) {			
-			if(EntityRainProperties.get((Entity) event.entity) != null) {
+			if(EntityRainProperties.get((Entity) event.entity) != null && event.entity.getDistanceToEntity(Minecraft.getMinecraft().thePlayer) < ConfigurationMoD.SPLASH_RENDER_DISTANCE) {
 				EntityRainProperties.get((Entity) event.entity).updateWaterLogic();
 				}
 		}
@@ -105,7 +107,7 @@ public class WeatherHelper {
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		World world = Minecraft.getMinecraft().theWorld;
 		
-        if (mc.isGamePaused())
+        if (mc.isGamePaused() || !ConfigurationMoD.Enable_Ripple)
             return;
         
 		if (player != null && world != null) {

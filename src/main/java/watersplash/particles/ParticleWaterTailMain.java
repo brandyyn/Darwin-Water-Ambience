@@ -51,8 +51,8 @@ public void onUpdate()
 		
 		Material m = entityL.worldObj.getBlock((int)entityL.posX, (int)entityL.posY-1, (int)entityL.posZ).getMaterial();
 		Material m2 = entityL.worldObj.getBlock((int)entityL.posX, (int)entityL.posY, (int)entityL.posZ).getMaterial();
-
-		if((m2 == Material.water)||(m == Material.water)&& (entityL.motionX != 0 || entityL.motionZ != 0) && ++timer > ConfigurationMoD.TRAIL_RARITY_MODIFIER){
+		int meta = 0;
+		if((m2 == Material.water || m == Material.water) && (entityL.motionX != 0 || entityL.motionZ != 0) && ++timer > ConfigurationMoD.TRAIL_RARITY_MODIFIER){
 			double poY = 0;
 			int o = 0 ;
 			 while((o<5)) {
@@ -98,12 +98,12 @@ public void onUpdate()
 								 break;
 						 }
 					 }*/
-
-					 switch (entityL.worldObj.getBlockMetadata((int)entityL.posX, (int)entityL.posY-3+o, (int)entityL.posZ)) {
+					 meta = entityL.worldObj.getBlockMetadata((int)entityL.posX, (int)poY-1, (int)entityL.posZ);
+					 switch (meta) {
 						 case 1:
 							 poY -= 0.1;
 							 //Checks block below if it's flowing down.
-							 if(entityL.worldObj.getBlockMetadata((int)entityL.posX, (int)entityL.posY-4+o, (int)entityL.posZ) == 9) {
+							 if(entityL.worldObj.getBlockMetadata((int)entityL.posX, (int)poY-2, (int)entityL.posZ) == 9) {
 								 poY -= 0.2;
 							 }
 							 break;
@@ -124,7 +124,7 @@ public void onUpdate()
 							 break;
 						 case 7:
 							 poY -= 0.8;
-							 return;
+							 break;
 						 default:
 							 break;
 					 }
@@ -133,8 +133,10 @@ public void onUpdate()
 					o = 10;
 				 } 
 			 }
-			ParticleEffects.spawnTail(entityL,poY,false);
-			timer = 0;
+			 if(timer > Math.max(ConfigurationMoD.TRAIL_RARITY_MODIFIER*(meta*1.1), ConfigurationMoD.TRAIL_RARITY_MODIFIER)) {
+				 ParticleEffects.spawnTail(entityL, poY, false);
+				 timer = 0;
+			 }
 		}else if(this.particleAge++ >= this.particleMaxAge) {
 			this.setDead();
 		} 
