@@ -7,7 +7,7 @@ Current Features:
 Water Trails!
 ![image](https://github.com/user-attachments/assets/b04ea734-73ee-4687-9e98-5bbcd71967a6)
 
-Water Ripples when its Raining
+Water Ripples while Raining!
 ![image](https://github.com/user-attachments/assets/2e25643a-8661-4492-9c83-fd645d0df47e)
 
 Water Splashes for Entities and Items
