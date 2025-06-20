@@ -76,15 +76,19 @@ switch (meta) {
         break;
     case 4:
         this.posY-= 0.6;
+        this.particleScale = 0;
         break;
     case 5:
         this.posY-= 0.8;
+        this.particleScale = 0;
         break;
     case 6:
         this.posY-= 0.9;
+        this.particleScale = 0;
         break;
     case 7:
         this.posY-= 1;
+        this.particleScale = 0;
         break;
 
 }
