@@ -136,7 +136,7 @@ this.setDead();
 @SideOnly(Side.CLIENT)
 public int getBrightnessForRender(float p_70070_1_)
 {
-    return 200;   
+    return 200;
 }
 
 @Override
@@ -150,7 +150,7 @@ GL11.glDepthMask(true);
 GL11.glEnable(GL11.GL_ALPHA_TEST);
 Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(WATERMAIN.MODID+ resourceLocation));
 par1Tessellator.startDrawingQuads();
-par1Tessellator.setBrightness(200);
+par1Tessellator.setBrightness(this.getBrightnessForRender(0.0F));
 par1Tessellator.setColorOpaque_F(this.particleRed, this.particleGreen, this.particleBlue);
 
 render(par1Tessellator, par2, false);
