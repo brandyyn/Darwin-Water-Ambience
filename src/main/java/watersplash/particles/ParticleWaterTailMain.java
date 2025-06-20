@@ -108,23 +108,23 @@ public void onUpdate()
 							 }
 							 break;
 						 case 2:
-							 poY -= 0.2;
-							 break;
-						 case 3:
 							 poY -= 0.3;
 							 break;
-						 case 4:
+						 case 3:
 							 poY -= 0.4;
 							 break;
-						 case 5:
+						 case 4:
 							 poY -= 0.5;
 							 break;
-						 case 6:
+						 case 5:
 							 poY -= 0.6;
 							 break;
-						 case 7:
+						 case 6:
 							 poY -= 0.7;
 							 break;
+						 case 7:
+							 poY -= 0.8;
+							 return;
 						 default:
 							 break;
 					 }
