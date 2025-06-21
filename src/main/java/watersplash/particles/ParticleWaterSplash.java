@@ -2,6 +2,8 @@ package watersplash.particles;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumSkyBlock;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
@@ -132,12 +134,38 @@ this.setDead();
 }
 }
 
-@Override
-@SideOnly(Side.CLIENT)
-public int getBrightnessForRender(float p_70070_1_)
-{
-    return 200;
-}
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getBrightnessForRender(float partialTick) {
+        int x = MathHelper.floor_double(this.posX);
+        int y = MathHelper.floor_double(this.posY);
+        int z = MathHelper.floor_double(this.posZ);
+
+        int rawSky   = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, x, y, z);
+
+        long time = this.worldObj.getWorldTime() % 24000L;
+        float skyFade = 0.0F;
+
+        if (time <= 12000L) {
+            // Fully bright from 0 to 12000 (daytime)
+            skyFade = 1.0F;
+        } else if (time <= 14000L) {
+            // Sunset: fade out
+            skyFade = 1.0F - ((time - 12000L) / 2000.0F);  // From 1 to 0
+        } else if (time >= 22000L) {
+            // Pre-sunrise: fade in
+            skyFade = (time - 22000L) / 2000.0F;  // From 0 to 1
+        } else {
+            // Night
+            skyFade = 0.0F;
+        }
+
+        skyFade = MathHelper.clamp_float(skyFade, 0.0F, 1.0F);
+
+        int skyFinal = (int)(rawSky * skyFade);
+
+        return skyFinal * 16;
+    }
 
 @Override
 @SideOnly(Side.CLIENT)
@@ -146,19 +174,24 @@ public void renderParticle(Tessellator par1Tessellator, float par2, float par3, 
 
 par1Tessellator.draw();
 GL11.glEnable(GL11.GL_BLEND);
+GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 GL11.glDepthMask(true);
 GL11.glEnable(GL11.GL_ALPHA_TEST);
-Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(WATERMAIN.MODID+ resourceLocation));
+
+int brightness = this.getBrightnessForRender(par2);
+par1Tessellator.setBrightness(brightness);
+
+Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(WATERMAIN.MODID + resourceLocation));
 par1Tessellator.startDrawingQuads();
-par1Tessellator.setBrightness(this.getBrightnessForRender(0.0F));
-par1Tessellator.setColorOpaque_F(this.particleRed, this.particleGreen, this.particleBlue);
+
+par1Tessellator.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, particleAlpha);
 
 render(par1Tessellator, par2, false);
 if(inTime >= 0)
-render(par1Tessellator, par2, true);
+    render(par1Tessellator, par2, true);
 
 par1Tessellator.draw();
-Minecraft.getMinecraft().getTextureManager().bindTexture( new ResourceLocation(resourceLocation));
+Minecraft.getMinecraft().getTextureManager().bindTexture( new ResourceLocation("textures/particle/particles.png"));
 par1Tessellator.startDrawingQuads();
 
 }
