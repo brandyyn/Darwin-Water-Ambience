@@ -3,8 +3,6 @@ package watersplash.particles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
@@ -31,11 +29,11 @@ public class ParticleEffects
 				 if(entity.worldObj.isAirBlock((int)x,y+o,(int)z) || o > 5) {
 
 					 if (Type.equals("Waste")) {
-						 var21 = new ParticleWaterSplash(theWorld,entity,biomeGenBase, meta, true);
+						 var21 = new ParticleWaterSplash(theWorld,x,y+o,z, entity,biomeGenBase, meta, true);
 						 mc.effectRenderer.addEffect(var21);
 					 }
 			   		 if (Type.equals("Water")) {
-						var21 = new ParticleWaterSplash(theWorld,entity,biomeGenBase, meta, false);
+						var21 = new ParticleWaterSplash(theWorld, x, y+o,z, entity,biomeGenBase, meta, false);
 					 	mc.effectRenderer.addEffect(var21);
 					 	 }
 			   		 if (Type.equals("Lava")){

@@ -15,6 +15,7 @@ public static boolean Enable_Trail;
 public static boolean Enable_Trail_Transparancy;
 
 public static double SPLASH_SCALE_MODIFIER_SIZE, SPLASH_SCALE_MODIFIER_HEIGHT, SPLASH_RENDER_DISTANCE;
+public static int SPLASH_COLOR_HEX;
 public static boolean SPLASH_SCALE_DOUBLE_ITEM;
 public static int SPLASH_MAXTRACKEDITEMS,TRAIL_RARITY_MODIFIER;
 public static double RIPPLE_SCALE_MODIFIER_SIZE,RIPPLE_RARITY_MODIFIER,RIPPLE_AREA_MODIFIER;
@@ -25,6 +26,7 @@ public static final String 	Enable_Trail_DES = "This Option enable the rendering
 public static final String 	Enable_Splash_for_ITEMS_DES = "This Option enable the rendering of the Water Splashes for ITEMS. true/false";
 public static final String 	Enable_Splash_for_ENTITYS_MP_DES = "This Option enable the rendering of the Water Splashes for other players. true/false";
 public static final String 	Enable_Splash_for_ENTITYS_DES = "This Option enable the rendering of the Water Splashes for Entitys. true/false";
+public static final String SPLASH_COLOR_HEX_DES = "This option modifies the default color for splashes. This color is also used as a base for the biome water color. TAKES HEX VALUES. [Default: 0x3F76E4 OR 4159204]";
 
 
 
@@ -47,6 +49,7 @@ public static void loadConfig(){
 	SPLASH_SCALE_MODIFIER_HEIGHT = WATERMAIN.config.get(CATEGORY_WATERMOD2, "Scales the Height of the Splash (1.0 = 100%)", 1.00).getDouble();
 	SPLASH_RENDER_DISTANCE = WATERMAIN.config.get(CATEGORY_WATERMOD2, "Distance (in blocks) from player at which splashes can spawn", 50.00).getDouble();
 	SPLASH_SCALE_DOUBLE_ITEM = WATERMAIN.config.get(CATEGORY_WATERMOD2, "Doubles the size of the splash for items", true).getBoolean();
+	SPLASH_COLOR_HEX = WATERMAIN.config.get(CATEGORY_WATERMOD2, SPLASH_COLOR_HEX_DES, 0x3F76E4).getInt();
 	SPLASH_MAXTRACKEDITEMS = WATERMAIN.config.get(CATEGORY_WATERMOD2, "Sets the Max Amount of Tracked Items around the Player)", 20).getInt();
 	SPLASH_LOWPERFORMANCEMOD = WATERMAIN.config.get(CATEGORY_WATERMOD2,"Enable this to get a bit more performance, but it will spawn a Splash on EVERY contact with water",false).getBoolean(); 
 	

@@ -16,6 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import watersplash.ColorUtils;
 import watersplash.ConfigurationMoD;
 import watersplash.WATERMAIN;
 
@@ -27,10 +28,10 @@ private int outTime,inTime;
 private Entity entityL;
 private boolean spawnedTrail = false;
 private double y;
-private String resourceLocation = ":textures/gui/particles.png";
+private String resourceLocation = ":textures/gui/particles2.png";
+private String resourceLocationFoam = ":textures/gui/particlesFoam.png";
 
-public ParticleWaterSplash(World theWorld, Entity entity, BiomeGenBase biomeGenBase, byte meta, boolean isWLMToxicWaste) {
-
+public ParticleWaterSplash(World theWorld, double par2, double par4, double par6, Entity entity, BiomeGenBase biomeGenBase, byte meta, boolean isWLMToxicWaste) {
 super(theWorld,(int)entity.posX, (int)entity.posY, (int)entity.posZ);
 
 this.motionX = 0;
@@ -42,20 +43,20 @@ this.particleTextureIndexY = 1;
 
 	entityL =  entity;
 
-int fogColour = biomeGenBase.getWaterColorMultiplier();
+int fogColour = ColorUtils.getFluidColor(theWorld, (int) par2, (int) (par4-2), (int) par6, biomeGenBase);
 float rPart = (float) ((fogColour & 0xFF0000) >> 16);
 float gPart = (float) ((fogColour & 0xFF00) >> 8);
 float bPart = (float) (fogColour & 0xFF);
-
 this.particleRed = rPart;
 this.particleGreen = gPart;
 this.particleBlue = bPart;
+this.particleAlpha = 255;
 if(entity instanceof EntityOtherPlayerMP && ConfigurationMoD.Enable_Splash_for_ENTITYS_MP)
-    this.particleScale *= 8.4F*0.9F*ConfigurationMoD.SPLASH_SCALE_MODIFIER_SIZE;
+    this.particleScale *= (float) (8.4F*0.9F*ConfigurationMoD.SPLASH_SCALE_MODIFIER_SIZE);
 else if(entity instanceof EntityItem && ConfigurationMoD.SPLASH_SCALE_DOUBLE_ITEM)
-    this.particleScale *=16.8F*entity.getShadowSize()*ConfigurationMoD.SPLASH_SCALE_MODIFIER_SIZE;
+    this.particleScale *= (float) (16.8F*entity.getShadowSize()*ConfigurationMoD.SPLASH_SCALE_MODIFIER_SIZE);
 else
-    this.particleScale *= 8.4F*entity.getShadowSize()*ConfigurationMoD.SPLASH_SCALE_MODIFIER_SIZE;
+    this.particleScale *= (float) (8.4F*entity.getShadowSize()*ConfigurationMoD.SPLASH_SCALE_MODIFIER_SIZE);
 this.outTime = 0;
 this.inTime  = -1;
 this.particleMaxAge = 12;
@@ -142,7 +143,7 @@ this.setDead();
         int z = MathHelper.floor_double(this.posZ);
 
         int rawSky   = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, x, y, z);
-
+        int rawBlock   = this.worldObj.getSavedLightValue(EnumSkyBlock.Block, x, y, z);
         long time = this.worldObj.getWorldTime() % 24000L;
         float skyFade = 0.0F;
 
@@ -161,40 +162,56 @@ this.setDead();
         }
 
         skyFade = MathHelper.clamp_float(skyFade, 0.0F, 1.0F);
-
+        rawBlock *= 16;
         int skyFinal = (int)(rawSky * skyFade);
-
-        return skyFinal * 16;
+        int finalTotal = Math.max(rawBlock, skyFinal * 16);
+        return Math.max(60, Math.min(finalTotal, 200));
     }
 
-@Override
-@SideOnly(Side.CLIENT)
-public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
-{
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
+    {
 
-par1Tessellator.draw();
-GL11.glEnable(GL11.GL_BLEND);
-GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-GL11.glDepthMask(true);
-GL11.glEnable(GL11.GL_ALPHA_TEST);
+        par1Tessellator.draw();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDepthMask(true);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
 
-int brightness = this.getBrightnessForRender(par2);
-par1Tessellator.setBrightness(brightness);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(WATERMAIN.MODID+ resourceLocation));
+        par1Tessellator.startDrawingQuads();
 
-Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(WATERMAIN.MODID + resourceLocation));
-par1Tessellator.startDrawingQuads();
+        par1Tessellator.setBrightness(this.getBrightnessForRender(0.0F));
 
-par1Tessellator.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, particleAlpha);
+        if(resourceLocation.equals(":textures/gui/particlesWLM.png"))
+            par1Tessellator.setColorRGBA(255, 255, 255, (int) this.particleAlpha);
+        else
+            par1Tessellator.setColorRGBA((int) this.particleRed, (int) this.particleGreen, (int) this.particleBlue, (int) this.particleAlpha);
 
-render(par1Tessellator, par2, false);
-if(inTime >= 0)
-    render(par1Tessellator, par2, true);
+        render(par1Tessellator, par2, false);
+        if(inTime >= 0)
+            render(par1Tessellator, par2, true);
 
-par1Tessellator.draw();
-Minecraft.getMinecraft().getTextureManager().bindTexture( new ResourceLocation("textures/particle/particles.png"));
-par1Tessellator.startDrawingQuads();
+        par1Tessellator.draw();
 
-}
+
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(WATERMAIN.MODID + resourceLocationFoam));
+        par1Tessellator.startDrawingQuads();
+
+        par1Tessellator.setBrightness(this.getBrightnessForRender(0.0F));
+        par1Tessellator.setColorRGBA(255, 255, 255, (int) this.particleAlpha);
+
+        render(par1Tessellator, par2, false);
+        if (inTime >= 0)
+            render(par1Tessellator, par2, true);
+
+        par1Tessellator.draw();
+
+        Minecraft.getMinecraft().getTextureManager().bindTexture( new ResourceLocation("textures/particle/particles.png"));
+        par1Tessellator.startDrawingQuads();
+
+    }
 
 
 public void render(Tessellator p_70539_1_, float p_70539_2_, boolean type)
